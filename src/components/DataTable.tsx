@@ -8,6 +8,7 @@ interface Column {
   key: string;
   label: string;
   sortable?: boolean;
+  render?: (value: any) => string;
 }
 
 interface DataTableProps {
@@ -58,7 +59,9 @@ export const DataTable = ({ columns, data, onRowClick, onSort }: DataTableProps)
               onClick={() => onRowClick?.(item)}
             >
               {columns.map((column) => (
-                <TableCell key={column.key}>{item[column.key]}</TableCell>
+                <TableCell key={column.key}>
+                  {column.render ? column.render(item[column.key]) : item[column.key]}
+                </TableCell>
               ))}
             </TableRow>
           ))}
