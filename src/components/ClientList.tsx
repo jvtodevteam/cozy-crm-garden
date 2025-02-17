@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from './DataTable';
 import { SearchBar } from './SearchBar';
+import { ClientDetail } from './ClientDetail';
 
 interface Booking {
   BookingID: number;
@@ -136,24 +136,30 @@ export const ClientList = () => {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Clients</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-6">
-          <SearchBar onSearch={handleSearch} placeholder="Search clients and bookings..." />
-        </div>
-        <DataTable
-          columns={columns}
-          data={filteredClients}
-          onSort={handleSort}
-          onRowClick={(client) => {
-            console.log('Client and their bookings:', client);
-            setSelectedClient(client);
-          }}
+    <>
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Clients</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-6">
+            <SearchBar onSearch={handleSearch} placeholder="Search clients and bookings..." />
+          </div>
+          <DataTable
+            columns={columns}
+            data={filteredClients}
+            onSort={handleSort}
+            onRowClick={(client) => setSelectedClient(client)}
+          />
+        </CardContent>
+      </Card>
+
+      {selectedClient && (
+        <ClientDetail 
+          client={selectedClient} 
+          onClose={() => setSelectedClient(null)} 
         />
-      </CardContent>
-    </Card>
+      )}
+    </>
   );
 };
