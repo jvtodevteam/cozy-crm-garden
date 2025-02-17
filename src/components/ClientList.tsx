@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from './DataTable';
 import { SearchBar } from './SearchBar';
-import { ClientDetail } from './ClientDetail';
+import { useNavigate } from 'react-router-dom';
 
 interface Booking {
   BookingID: number;
@@ -134,8 +133,8 @@ const columns = [
 
 export const ClientList = () => {
   const [clients, setClients] = React.useState<Client[]>(mockClients);
-  const [selectedClient, setSelectedClient] = React.useState<Client | null>(null);
   const [filteredClients, setFilteredClients] = React.useState<Client[]>(mockClients);
+  const navigate = useNavigate();
 
   const handleSearch = (query: string) => {
     const filtered = clients.filter((client) =>
@@ -170,31 +169,26 @@ export const ClientList = () => {
     setFilteredClients(sorted);
   };
 
-  return (
-    <>
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Clients</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-6">
-            <SearchBar onSearch={handleSearch} placeholder="Search clients and bookings..." />
-          </div>
-          <DataTable
-            columns={columns}
-            data={filteredClients}
-            onSort={handleSort}
-            onRowClick={(client) => setSelectedClient(client)}
-          />
-        </CardContent>
-      </Card>
+  const handleClientClick = (client: Client) => {
+    navigate(`/client/${client.ClientID}`, { state: { client } });
+  };
 
-      {selectedClient && (
-        <ClientDetail 
-          client={selectedClient} 
-          onClose={() => setSelectedClient(null)} 
+  return (
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Clients</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="mb-6">
+          <SearchBar onSearch={handleSearch} placeholder="Search clients and bookings..." />
+        </div>
+        <DataTable
+          columns={columns}
+          data={filteredClients}
+          onSort={handleSort}
+          onRowClick={handleClientClick}
         />
-      )}
-    </>
+      </CardContent>
+    </Card>
   );
 };
