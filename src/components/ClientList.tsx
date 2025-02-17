@@ -18,6 +18,14 @@ interface Booking {
   SpecialRequirements: string;
 }
 
+interface ActivityLog {
+  id: number;
+  type: string;
+  description: string;
+  timestamp: string;
+  details?: string;
+}
+
 interface Client {
   ClientID: number;
   ClientName: string;
@@ -25,6 +33,7 @@ interface Client {
   EmailAddress: string;
   Nationality: string;
   Bookings: Booking[];
+  activityLogs: ActivityLog[];
 }
 
 const mockClients: Client[] = [
@@ -59,6 +68,22 @@ const mockClients: Client[] = [
         DropoffLocation: "Ketapang Harbor",
         SpecialRequirements: "Early morning pickup"
       }
+    ],
+    activityLogs: [
+      {
+        id: 1,
+        type: "Booking Created",
+        description: "New booking created for Mount Bromo Tour",
+        timestamp: "2024-03-15 10:30 AM",
+        details: "Booking Reference: STS600155"
+      },
+      {
+        id: 2,
+        type: "Contact Updated",
+        description: "Client phone number updated",
+        timestamp: "2024-03-14 02:15 PM",
+        details: "Previous: +62 811-1111-2222"
+      }
     ]
   },
   {
@@ -79,6 +104,15 @@ const mockClients: Client[] = [
         PickupLocation: "Surabaya Hotel",
         DropoffLocation: "Surabaya Hotel",
         SpecialRequirements: "Family with children"
+      }
+    ],
+    activityLogs: [
+      {
+        id: 1,
+        type: "Booking Created",
+        description: "New booking created for Bromo Sunrise Tour",
+        timestamp: "2024-03-10 09:15 AM",
+        details: "Booking Reference: STS600157"
       }
     ]
   }
